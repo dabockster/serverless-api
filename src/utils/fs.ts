@@ -9,8 +9,9 @@ import {
   AccessOptions,
   DirectoryContent,
   FileInfo,
-  ServerlessResourceConfig,
   ResourcePathAndAccess,
+  ServerlessResourceConfig,
+  ServerlessResourceConfigWithFilePath,
 } from '../types';
 
 const log = debug('twilio-serverless-api:fs');
@@ -226,7 +227,7 @@ export async function getListOfFunctionsAndAssets(
 async function getServerlessConfigs(
   dirContent: FileInfo[],
   ignoreExtension?: string
-): Promise<ServerlessResourceConfig[]> {
+): Promise<ServerlessResourceConfigWithFilePath[]> {
   return Promise.all(
     dirContent.map(async file => {
       const { path, access } = getPathAndAccessFromFileInfo(
@@ -241,6 +242,7 @@ async function getServerlessConfigs(
         path,
         access,
         content,
+        filePath: file.path,
       };
     })
   );

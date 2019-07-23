@@ -35,6 +35,13 @@ export type ServerlessResourceConfig = {
   path?: string;
 };
 
+export type ServerlessResourceConfigWithFilePath = ServerlessResourceConfig & {
+  /**
+   * Path to the actual file on the file system.
+   */
+  filePath: string;
+};
+
 export type FunctionResource = ServerlessResourceConfig & {
   sid: string;
 };
@@ -61,6 +68,6 @@ export type ResourcePathAndAccess = {
 };
 
 export type DirectoryContent = {
-  assets: ServerlessResourceConfig[];
-  functions: ServerlessResourceConfig[];
+  assets: ServerlessResourceConfigWithFilePath[];
+  functions: ServerlessResourceConfigWithFilePath[];
 };
