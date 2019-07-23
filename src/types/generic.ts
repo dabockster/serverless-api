@@ -8,43 +8,38 @@ export type EnvironmentVariables = {
   [key: string]: string | undefined;
 };
 
-/**
- * Necessary info to deploy a function or asset
- */
 export type FileInfo = {
+  name: string;
+  path: string;
+};
+
+/**
+ * Necessary info to deploy a function
+ */
+export type ServerlessResourceConfig = {
   /**
-   * Relative file name/path. Will be used to create the Serverless paths. Example:
-   * `example.js` => `/example`
-   * `sms/reply.protected.js` => `/sms/reply`
-   * `index.html` => `/index.html`
+   * Access for the function
+   */
+  access: AccessOptions;
+  /**
+   * Content of the uploaded function
+   */
+  content: string | Buffer;
+  /**
+   * Function name
    */
   name: string;
   /**
-   * Path on file system to read the contents from
+   * Path for the serverless function
    */
   path?: string;
-  /**
-   * Alternantive to `path` if you want to specify the content directly.
-   * Can be a string or a `Buffer` instance representing the content.
-   */
-  content?: string | Buffer;
 };
 
-export type RawFunctionWithPath = FileInfo & {
-  functionPath: string;
-  access: AccessOptions;
-};
-
-export type RawAssetWithPath = FileInfo & {
-  assetPath: string;
-  access: AccessOptions;
-};
-
-export type FunctionResource = RawFunctionWithPath & {
+export type FunctionResource = ServerlessResourceConfig & {
   sid: string;
 };
 
-export type AssetResource = RawAssetWithPath & {
+export type AssetResource = ServerlessResourceConfig & {
   sid: string;
 };
 
@@ -66,6 +61,6 @@ export type ResourcePathAndAccess = {
 };
 
 export type DirectoryContent = {
-  assets: FileInfo[];
-  functions: FileInfo[];
+  assets: ServerlessResourceConfig[];
+  functions: ServerlessResourceConfig[];
 };
